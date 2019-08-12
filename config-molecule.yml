@@ -72,13 +72,13 @@
     user:
       name: "{{ ansible_user }}"
       groups: docker
-    register: dockergroupupdated is changed
+    register: dockergroupupdated
 
   - name: Restart docker service if user added to docker group
     service:
       name: docker.service
       state: restarted
-    when: dockergroupupdated
+    when: dockergroupupdated is changed
 
 - hosts: all
 
