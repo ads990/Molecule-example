@@ -18,21 +18,15 @@ https://molecule.readthedocs.io/en/stable/index.html
 
 **What Molecule can test against a role**
 
-- Yaml syntax:
-  This will be done using configured lintel and can be configured as desired.
-  It will help with common Yaml syntax errors and/or adherence to best practices
+- **Yaml syntax:** this will be done using configured lintel and can be configured as desired. It will help with common Yaml syntax errors and/or adherence to best practices
   
-- Execution of a role against different platforms
-  This will ensure that role can be successfully used on different OS/version (e.g. RHEL6 or 7 or 8). It will require preparation of adequate environments to exercute tests against.
+- **Execution of a role against different platforms:** this will ensure that role can be successfully used on different OS/version (e.g. RHEL6 or 7 or 8). It will require preparation of adequate environments to exercute tests against.
   
-- Execution of a role using different version of Ansible engine
-  It will help with regression testing when upgrading Ansible
+- **Execution of a role using different version of Ansible engine:** it will help with regression testing when upgrading Ansible
   
-- Role idempotence
-  This will ensure that Ansible code is developed correctly and repeated execution isn't trigerring repeated actions (or in other words, follow up runs don't make any changes to a target system).
+- **Role idempotence:** this will ensure that Ansible code is developed correctly and repeated execution isn't trigerring repeated actions (or in other words, follow up runs don't make any changes to a target system).
   
-- Functional test of a role
-  This is the essence of the testing - making sure that expected configuration state is reached. 
+- **Functional test of a role:** this is the essence of the testing - making sure that expected configuration state is reached. 
   
   
   
