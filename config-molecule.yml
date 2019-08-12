@@ -1,0 +1,90 @@
+---
+# It will configure all prereqs and install molecule
+- hosts: all
+  become: yes
+  vars:
+    python_path: /usr/lib/python27
+  tasks:
+
+  - name: Install epel - CentOS
+    yum:
+      name: epel-release
+      state: present
+    when: ansible_distribution == 'CentOS'
+
+  - name: Install epel - RHEL7
+    yum:
+      name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      state: present
+    when: ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7'
+
+  - name: Install pip
+    yum:
+      name: python-pip
+      state: present
+    register: pipinstalled
+
+  - name: Upgrade pip if just installed
+    pip:
+      name: pip
+      extra_args: --upgrade
+    when: pipinstalled is changed
+
+  - name: Upgrade setuptools python module
+    pip:
+      name: setuptools
+      extra_args: --upgrade
+
+  - name: Install pip docker
+    pip:
+      name: docker
+      state: present
+
+  - name: Update system wide PATH variable with python location
+    copy:
+      dest: /etc/profile.d/custom-path.sh
+      content: 'PATH=$PATH:{{ python_path }}'
+      mode: '0644'
+
+  - name: Install remaining dependencies
+    yum:
+      name:
+      - gcc
+      - python-devel
+      - openssl-devel
+      - libselinux-python
+      - docker
+      - git
+      state: present
+
+  - name: Enable and start docker service
+    service:
+      name: docker.service
+      state: started
+      enabled: yes
+
+  - name: Create docker group
+      name: docker
+      state: present
+
+  - name: Add user to the group
+      name: "{{ ansible_user }}"
+      groups: docker
+
+
+- hosts: all
+
+  tasks:
+
+  - name: Install molecule with pip
+    pip:
+      name: molecule
+      extra_args: --user
+
+  - name: Add molecule autocomplete
+    lineinfile:
+      path: ~/.bash_profile
+      line: 'eval "$(_MOLECULE_COMPLETE=source molecule)"'
+      state: present
+      insertafter: 'EOF'
+
