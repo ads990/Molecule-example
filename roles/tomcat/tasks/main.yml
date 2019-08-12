@@ -1,0 +1,25 @@
+---
+# tasks file for app-tier/tomcat
+
+- name: Install tomcat package
+  yum:
+    name: tomcat
+    state: latest
+
+- name: Start and enable tomcat service
+  service:
+    name: tomcat
+    state: started
+    enabled: true
+
+- name: Create home folder
+  file:
+    path: /usr/share/tomcat/webapps/ROOT
+    state: directory
+
+- name: copy static index.html to tomcat webapps/ansible/index.html
+  template:
+    src: templates/index.html.j2
+    dest: /usr/share/tomcat/webapps/ROOT/index.html
+    mode: 0644
+  notify: Restart Tomcat Service
