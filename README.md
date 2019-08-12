@@ -29,6 +29,21 @@ https://molecule.readthedocs.io/en/stable/index.html
 - **Functional test of a role:** this is the essence of the testing - making sure that expected configuration state is reached. 
   
   
-  
+**And how this is done?**
+
+Molecule is a python module. Once it is installed on a host it can be 'invoked' by 'molecule' command. All options and details available in quoted online documentation, but to provide some overview, quick look at how testing is performed:
+- molecule can either initialize a new role or work withing an existing one
+- molecule will work with 'scenarios'. Scenario will be described by files located inside a role folder, in 'molecule' subfolder. Each scenario will present a separate test case, where each will be executed after another in sequence. For example first scenario might be testing a role against CentOS7 and Ansible2.5, second will repeat but with Ansible2.7, third would do the same but against RHEL8 and so on.
+- molecule scenario will configure test steps, providers and environment - for example, whether to run a test inside a docker container or a VMWare WVM, what linter (syntax checker) to use (if any), whether idempotence test is to be run, and finally what verifier to use (which also can be configured)
+- each separate test can be invoked separately (e.g. run just syntax check)
+
+**Example from this repo**
+
+Prerequisites:
+1. Vagrant with VirtualBox
+2. Access to internet
+
+Steps:
+1. Clone the repo to your local host with Vagrant
 
 
