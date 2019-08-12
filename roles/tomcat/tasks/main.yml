@@ -1,10 +1,10 @@
 ---
-# tasks file for app-tier/tomcat
+# tasks file for tomcat/tomcat
 
 - name: Install tomcat package
   yum:
     name: tomcat
-    state: latest
+    state: present
 
 - name: Start and enable tomcat service
   service:

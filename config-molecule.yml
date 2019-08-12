@@ -74,7 +74,7 @@
       groups: docker
     register: dockergroupupdated
 
-  - name: Restart docker service if user added to docker group
+  - name: Restart docker service if user added to the docker group
     service:
       name: docker.service
       state: restarted
