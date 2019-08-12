@@ -1,18 +1,18 @@
 ---
-# It will configure all prereqs and install molecule
+# This playbook will configure install prerequisities and molecule
 - hosts: all
   become: yes
   vars:
     python_path: /usr/lib/python27
   tasks:
 
-  - name: Install epel - CentOS
+  - name: Install EPEL - CentOS
     yum:
       name: epel-release
       state: present
     when: ansible_distribution == 'CentOS'
 
-  - name: Install epel - RHEL7
+  - name: Install EPEL - RHEL7
     yum:
       name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
       state: present
@@ -24,13 +24,13 @@
       state: present
     register: pipinstalled
 
-  - name: Upgrade pip if just installed
+  - name: Upgrade pip if needed
     pip:
       name: pip
       extra_args: --upgrade
     when: pipinstalled is changed
 
-  - name: Upgrade setuptools python module
+  - name: Upgrade python module - setuptools
     pip:
       name: setuptools
       extra_args: --upgrade
@@ -40,7 +40,7 @@
       name: docker
       state: present
 
-  - name: Update system wide PATH variable with python location
+  - name: Update system-wide PATH variable with python location
     copy:
       dest: /etc/profile.d/custom-path.sh
       content: 'PATH=$PATH:{{ python_path }}'
@@ -63,13 +63,22 @@
       state: started
       enabled: yes
 
-  - name: Create docker group
+  - name: Create docker user group
+    group:
       name: docker
       state: present
 
-  - name: Add user to the group
+  - name: Add "{{ ansible_user }}" user to the docker group
+    user:
       name: "{{ ansible_user }}"
       groups: docker
+    register: useradded
+
+  - name: Restart docker service if user added to docker group
+    service:
+      name: docker.service
+      state: restarted
+    when: useradded
 
 
 - hosts: all
@@ -88,3 +97,6 @@
       state: present
       insertafter: 'EOF'
 
+  - name: Pull git example repo
+      repo: 'https://github.com/ads990/molecule-example'
+      dest: ~/{{ ansible_user }}/molecule-example
