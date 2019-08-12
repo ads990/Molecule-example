@@ -39,10 +39,10 @@ Molecule is a python module. Once it is installed on a host it can be 'invoked' 
 
 **Example from this repo**
 
-Requirements:
+**Requirements:**
 1. Host with Vagrant, VirtualBox and access to the internet
 
-Steps:
+**Steps:**
 1. Clone the repo to your local host with Vagrant
 2. Execute 'vagrant up' from the cloned repo directory
 3. Once the vm provisioning is finished, run 'vagrant ssh'
@@ -50,3 +50,7 @@ Steps:
 5. Run 'molecule test' - to execute full set of tests on test role
 6. To execute test on another role: 'cd ~/molecule-example/roles/tomcat'
 7. Run 'molecule test'
+
+
+
+Molecule is certainly a powerful tool allowing for Ansible code testing. It will shine when used in conjuction with CI tooling (Jenkins, Travis CI etc), where each commit could trigger a pipeline where a new merge is only allowed once automated testing is completed.
