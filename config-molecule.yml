@@ -72,14 +72,13 @@
     user:
       name: "{{ ansible_user }}"
       groups: docker
-    register: useradded
+    register: dockergroupupdated is changed
 
   - name: Restart docker service if user added to docker group
     service:
       name: docker.service
       state: restarted
-    when: useradded
-
+    when: dockergroupupdated
 
 - hosts: all
 
@@ -100,4 +99,5 @@
   - name: Pull git example repo
     git:  
       repo: 'https://github.com/ads990/molecule-example'
-      dest: ~/{{ ansible_user }}/molecule-example
+      dest: ~/molecule-example
+      clone: yes
