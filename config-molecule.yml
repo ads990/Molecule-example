@@ -98,5 +98,6 @@
       insertafter: 'EOF'
 
   - name: Pull git example repo
+    git:  
       repo: 'https://github.com/ads990/molecule-example'
       dest: ~/{{ ansible_user }}/molecule-example
