@@ -39,11 +39,14 @@ Molecule is a python module. Once it is installed on a host it can be 'invoked' 
 
 **Example from this repo**
 
-Prerequisites:
-1. Vagrant with VirtualBox
-2. Access to internet
+Requirements:
+1. Host with Vagrant, VirtualBox and access to the internet
 
 Steps:
 1. Clone the repo to your local host with Vagrant
-
-
+2. Execute 'vagrant up' from the cloned repo directory
+3. Once the vm provisioning is finished, run 'vagrant ssh'
+4. Inside the vm 'cd molecule-example/roles/test-role'
+5. Run 'molecule test' - to execute full set of tests on test role
+6. To execute test on another role: 'cd ~/molecule-example/roles/tomcat'
+7. Run 'molecule test'
